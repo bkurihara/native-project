@@ -1,0 +1,13 @@
+{
+    "require": {
+        "jenssegers/blade": "^1.4",
+        "vlucas/phpdotenv": "^5.3",
+        "pecee/simple-router": "4.3.7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Classes\\": "jenssegers/blade",
+            "App\\": "app/"
+        }
+    }
+}
