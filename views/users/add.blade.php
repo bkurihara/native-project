@@ -12,7 +12,7 @@
             <div class="card-title p-2 bg-dark"></div>
             <div class="card-body">
                 <h4 class="mb-3">ユーザー登録</h4>
-                <form>
+                <form method="POST" action="{{base_url('users')}}" enctype="multipart/form-data">
                     <div class="row mb-3">
                         <div class="col-md-3 mx-auto">
                             <input class="form-control form-control-sm" id="formFileSm" type="file">
@@ -21,26 +21,26 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">名前</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control shadow-sm" id="inputEmail3">
+                            <input type="text" class="form-control shadow-sm" name="name">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">名前（カナ）</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control shadow-sm" id="inputEmail3">
+                            <input type="text" class="form-control shadow-sm" name="name_kana">
                         </div>
                     </div>
                     <fieldset class="row mb-3">
                         <legend class="col-form-label col-sm-2 pt-0">性別</legend>
                         <div class="col-sm-10">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="option1" checked>
+                                <input class="form-check-input" type="radio" value="1" name="gender" checked>
                                 <label class="form-check-label">
                                     男
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="option2">
+                                <input class="form-check-input" type="radio" value="0" name="gender" >
                                 <label class="form-check-label">
                                     女
                                 </label>
@@ -50,16 +50,16 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">メールアドレス</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control shadow-sm">
+                            <input name="email" type="email" class="form-control shadow-sm">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">郵便番号</label>
                         <div class="col-sm-2">
-                            <input type="number" class="form-control shadow-sm" placeholder="123">
+                            <input name="postal_code1" type="number" class="form-control shadow-sm" placeholder="123">
                         </div>
                         <div class="col-sm-2">
-                            <input type="number" class="form-control shadow-sm" placeholder="1234">
+                            <input name="postal_code2" type="number" class="form-control shadow-sm" placeholder="1234">
                         </div>
                         <div class="col-sm-2">
                             <button type="button" class="btn btn-success rounded-pill"><i class="fas fa-search me-2"></i>検索</button>
@@ -68,22 +68,22 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">住所</label>
                         <div class="col-sm-2">
-                            <label for="inputEmail3" class="col col-form-label small">都道府県</label>
-                            <input type="text" class="form-control shadow-sm">
+                            <label class="col col-form-label small">都道府県</label>
+                            <input type="text" name="address1" class="form-control shadow-sm">
                         </div>
                         <div class="col-sm-2">
-                            <label for="inputEmail3" class="col col-form-label small">市区町村</label>
-                            <input type="text" class="form-control shadow-sm">
+                            <label class="col col-form-label small">市区町村</label>
+                            <input type="text" name="address2" class="form-control shadow-sm">
                         </div>
                         <div class="col-sm-2">
-                            <label for="inputEmail3" class="col col-form-label small">町域</label>
-                            <input type="text" class="form-control shadow-sm">
+                            <label class="col col-form-label small">町域</label>
+                            <input type="text" name="address3" class="form-control shadow-sm">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">電話番号</label>
+                        <label class="col-sm-2 col-form-label">電話番号</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control shadow-sm">
+                            <input name="phone" type="number" class="form-control shadow-sm">
                         </div>
                     </div>
                     <div class="text-center">

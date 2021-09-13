@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\models\UserModel;
 use Jenssegers\Blade\Blade;
 
 class UserController
@@ -20,17 +21,65 @@ class UserController
 
     public function create()
     {
-        echo $this->blade->render('users.add');
+//        echo $this->blade->render('users.add');
     }
 
-    public function show($request, $id)
+    public function insert()
     {
-        echo $this->blade->render('users.edit', ['id' => $id]);
+        $data = [
+            'name' => $_POST['name'],
+            'name_kana' => $_POST['name_kana'],
+            'gender' => $_POST['gender'],
+            'email' => $_POST['email'],
+            'password' => password_hash('password', PASSWORD_BCRYPT),
+            'postal_code1' => $_POST['postal_code1'],
+            'postal_code2' => $_POST['postal_code2'],
+            'address1' => $_POST['address1'] ?? null,
+            'address2' => $_POST['address2'] ?? null,
+            'address3' => $_POST['address3'] ?? null,
+            'phone' => $_POST['phone'] ?? null,
+        ];
+
+        $res = (new UserModel())->insert($data);
+        redirect(base_url());
     }
 
-    public function update()
+    public function show($id)
     {
-        echo $this->blade->render('users.edit');
+        $user = (new UserModel())->get($id);
+        echo $this->blade->render('users.edit', ['user' => $user]);
     }
 
+    public function update($id)
+    {
+        $user = (new UserModel());
+
+        $userData = $user->get($id);
+
+        $data = [
+            'name' => $_POST['name'],
+            'name_kana' => $_POST['name_kana'],
+            'gender' => $_POST['gender'],
+            'email' => $_POST['email'],
+            'postal_code1' => $_POST['postal_code1'],
+            'postal_code2' => $_POST['postal_code2'],
+            'address1' => $_POST['address1'] ?? $userData['address1'],
+            'address2' => $_POST['address2'] ?? $userData['address2'],
+            'address3' => $_POST['address3'] ?? $userData['address3'],
+            'phone' => $_POST['phone'] ?? $userData['phone'],
+            'photo' => $_POST['photo'] ?? $userData['photo'],
+        ];
+
+        $user->update($id, $data);
+
+        redirect(base_url());
+
+    }
+
+    public function destroy($id)
+    {
+        (new UserModel())->delete($id);
+
+        redirect(base_url());
+    }
 }
