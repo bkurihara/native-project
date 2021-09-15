@@ -12,7 +12,7 @@
                                 class="far fa-chart-bar me-2"></i>ダッシュボード</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{base_url('users')}}"><i
+                    <a class="nav-link active" aria-current="page" href="{{base_url('user')}}"><i
                                 class="fas fa-user-plus me-2"></i>ユーザー登録</a>
                 </li>
             </ul>
@@ -23,7 +23,7 @@
                         <i class="fas fa-user me-2"></i>ユーザー
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{base_url()}}"><i class="fas fa-sign-out-alt me-2"></i>ログアウト</a></li>
+                        <li><a class="dropdown-item" href="{{base_url('logout')}}"><i class="fas fa-sign-out-alt me-2"></i>ログアウト</a></li>
                     </ul>
                 </div>
             </form>

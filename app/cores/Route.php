@@ -2,8 +2,6 @@
 
 namespace App\cores;
 
-use App\controllers\UserController;
-
 class Route
 {
 
@@ -12,13 +10,23 @@ class Route
     private static $methodNotAllowed = null;
 
     // adding allowed url to routes array
-    public static function add($url, $class, $function, $method = 'get')
+    public static function addGet($url, $class, $function)
     {
         array_push(self::$routes, array(
             'url' => $url,
             'class' => $class,
             'function' => $function,
-            'method' => $method
+            'method' => 'get'
+        ));
+    }
+
+    public static function addPost($url, $class, $function)
+    {
+        array_push(self::$routes, array(
+            'url' => $url,
+            'class' => $class,
+            'function' => $function,
+            'method' => 'post'
         ));
     }
 
@@ -35,7 +43,7 @@ class Route
     }
 
     // start looking for the path in the allowed url arrays ($routes)
-    public static function run($basepath = '', $case_matters = false, $multimatch = false)
+    public static function run($basepath = '', $case_matters = false)
     {
         // ex : /native-project/// => /native-project
         $basepath = rtrim($basepath, '/');
@@ -47,14 +55,7 @@ class Route
 
         // if path is provided set path equal to provided path
         if (isset($parsed_url['path'])) {
-            // If the trailing slash matters, for POST method
-            // If the path is not equal to the base path (including a trailing slash)
-            if ($basepath . '/' != $parsed_url['path']) {
-                // Cut the trailing slash away because it does not matters
-                $path = rtrim($parsed_url['path'], '/');
-            } else {
-                $path = $parsed_url['path'];
-            }
+            $path = $parsed_url['path'];
         }
 
         // Get current request method, ex : GET, POST, etc
@@ -72,7 +73,7 @@ class Route
                 $route['url'] = '(' . $basepath . ')' . $route['url'];
             }
 
-            // preparing regex expression
+            // prepare regex expression
             $route['url'] = '#^' . $route['url'] . '$#' . ($case_matters ? '' : 'i') . 'u';
 
             // Check path match
@@ -92,11 +93,12 @@ class Route
 
                         $user = $route['class'];
                         $function = $route['function'];
+
                         // return view or response
                         if ($matches)
-                            (new $user())->$function($matches[0]);
+                            (new $user($function))->$function($matches[0]);
                         else
-                            (new $user())->$function();
+                            (new $user($function))->$function();
 
                         $route_match_found = true;
 
@@ -105,12 +107,6 @@ class Route
                     }
                 }
             }
-
-            // Break the loop if the first found route is a match
-            if ($route_match_found && !$multimatch) {
-                break;
-            }
-
         }
 
         // No matching route was found
@@ -127,5 +123,4 @@ class Route
             }
         }
     }
-
 }

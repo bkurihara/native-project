@@ -27,7 +27,7 @@
     <div class="card shadow-lg rounded-3 bg-light">
         <div class="card-body p-0">
             <h5 class="card-title bg-dark p-2"></h5>
-            <form class="form-signin p-4">
+            <form method="POST" action="{{base_url('login')}}" class="form-signin p-4">
                 <p class="text-center mb-0 display-2">
                     <i class="fas fa-user-shield"></i>
                 </p>
@@ -35,14 +35,14 @@
                 <p class="small text-center">ログインしてください</p>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label"><i class="far fa-envelope me-2"></i>メールアドレス</label>
-                    <input type="email" class="form-control shadow-sm" placeholder="メールアドレス">
+                    <input name="email" type="email" class="form-control shadow-sm" placeholder="メールアドレス">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label"><i class="fas fa-key me-2"></i>パスワード</label>
-                    <input type="password" class="form-control shadow-sm" placeholder="******">
+                    <input name="password" type="password" class="form-control shadow-sm" placeholder="******">
                 </div>
                 <div class="text-center mt-4">
-                    <a href="{{base_url("dashboard")}}" class="btn btn-dark mx-auto rounded-pill shadow-sm" type="submit"><i class="fas fa-sign-in-alt me-2"></i>ログイン</a>
+                    <button class="btn btn-dark mx-auto rounded-pill shadow-sm" type="submit"><i class="fas fa-sign-in-alt me-2"></i>ログイン</button>
                 </div>
             </form>
         </div>
