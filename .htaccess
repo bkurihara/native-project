@@ -24,4 +24,15 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    #    ForceType application/octet-stream
+    #    <FilesMatch "(?i).jpe?g$">
+    #        ForceType image/jpeg
+    #    </FilesMatch>
+    #    <FilesMatch "(?i).gif$">
+    #        ForceType image/gif
+    #    </FilesMatch>
+    #    <FilesMatch "(?i).png$">
+    #        ForceType image/png
+    #    </FilesMatch>
 </IfModule>

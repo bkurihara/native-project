@@ -1,19 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-3">
-        <nav class="bg-white p-2 shadow-sm"
-             style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
-             aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard.blade.php" aria-current="page">ダッシュボード</a></li>
-            </ol>
-        </nav>
-        <div class="card shadow-sm">
+    <div class="container my-5">
+        <div class="card shadow-lg">
             <div class="card-title p-2 bg-dark"></div>
-            <div class="card-body">
+            <div class="card-body p-4 px-4">
                 <h5 class="card-title">検索条件</h5>
                 <form class="row row-cols-lg-auto g-3 mb-3">
+                    @csrf
                     <div class="col-auto">
                         <label>名前</label>
                         <input id="name" name="name" type="text" class="form-control" placeholder="名前"/>
@@ -27,7 +21,7 @@
                         <select name="gender" class="form-select">
                             <option value="" selected>なし</option>
                             <option value="1">男</option>
-                            <option value="0">女</option>
+                            <option value="2">女</option>
                         </select>
                     </div>
                     <div class="col-auto">
@@ -78,6 +72,7 @@
                 language: {url: "//cdn.datatables.net/plug-ins/1.11.0/i18n/ja.json"},
                 processing: true,
                 serverSide: true,
+                searching: false,
                 serverMethod: 'post',
                 stateSave: true,
                 ajax: {
@@ -87,6 +82,10 @@
                         d.gender = $('select[name=gender]').val();
                         d.address1 = $('select[name=address1]').val();
                         d.email = $('#email').val();
+                        d.csrf_token = $('input[name=csrf_token]').val()
+                    },
+                    error: function (xhr, status, error) {
+
                     },
                 },
                 columns: [
@@ -95,13 +94,14 @@
                     {
                         mData: "gender",
                         mRender: function (data, type, row) {
-                            return data ? '男' : '女';
+                            return data === 1 ? '男' : '女';
                         }
                     },
                     {data: 'email'},
                     {data: 'address1'},
                     {
                         mData: "id",
+                        orderable: false,
                         mRender: function (data, type, row) {
                             return `<a href="http://localhost/native-project/user/` + data + `/edit"class="btn btn-sm rounded-pill btn-primary mx-1"><i
                             class="fas fa-edit me-2"></i>編集</a>

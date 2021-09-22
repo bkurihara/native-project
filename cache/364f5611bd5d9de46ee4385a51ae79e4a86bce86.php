@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
     <link href="<?php echo e(base_url("public/css/bootstrap/bootstrap.min.css")); ?>" rel="stylesheet">
     <link href="<?php echo e(base_url("public/css/fontawesome/css/all.min.css")); ?>" rel="stylesheet">
     <script src="<?php echo e(base_url("public/js/bootstrap/bootstrap.min.js")); ?>"></script>
@@ -28,6 +27,7 @@
         <div class="card-body p-0">
             <h5 class="card-title bg-dark p-2"></h5>
             <form method="POST" action="<?php echo e(base_url('login')); ?>" class="form-signin p-4">
+                <?php echo csrf_field(); ?>
                 <p class="text-center mb-0 display-2">
                     <i class="fas fa-user-shield"></i>
                 </p>
@@ -41,6 +41,12 @@
                     <label for="exampleInputPassword1" class="form-label"><i class="fas fa-key me-2"></i>パスワード</label>
                     <input name="password" type="password" class="form-control shadow-sm" placeholder="******">
                 </div>
+                <?php if(isset($error)): ?>
+                    <div class="alert alert-danger text-center" role="alert">
+                        <?php echo e($error); ?>
+
+                    </div>
+                <?php endif; ?>
                 <div class="text-center mt-4">
                     <button class="btn btn-dark mx-auto rounded-pill shadow-sm" type="submit"><i class="fas fa-sign-in-alt me-2"></i>ログイン</button>
                 </div>

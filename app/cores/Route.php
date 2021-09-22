@@ -61,6 +61,10 @@ class Route
         // Get current request method, ex : GET, POST, etc
         $method = $_SERVER['REQUEST_METHOD'];
 
+        if (isPost()) {
+            checkCSRFtoken();
+        }
+
         $path_match_found = false;
         $route_match_found = false;
 

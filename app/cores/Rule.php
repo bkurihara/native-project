@@ -16,6 +16,7 @@ class Rule
 
     public function sanitize()
     {
+        $this->value = strip_tags($this->value);
         $this->value = htmlspecialchars($this->value);
         $this->value = stripcslashes($this->value);
         $this->value = trim($this->value);

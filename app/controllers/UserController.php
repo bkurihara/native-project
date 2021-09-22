@@ -2,11 +2,12 @@
 
 namespace App\controllers;
 
+use App\cores\Controller;
 use App\middlewares\Auth;
 use App\models\User;
-use App\requests\rules\Alpha;
 use App\requests\rules\Boolean;
 use App\requests\rules\Email;
+use App\requests\rules\Image;
 use App\requests\rules\Kana;
 use App\requests\rules\KanjiKana;
 use App\requests\rules\MatchPassword;
@@ -15,18 +16,15 @@ use App\requests\rules\Password;
 use App\requests\rules\Unique;
 use App\requests\rules\UniqueExceptOwner;
 use App\requests\UserFormRequest;
-use Jenssegers\Blade\Blade;
 
-class UserController
+class UserController extends Controller
 {
-    public $blade;
-
     protected $userTable;
 
     public function __construct($calledFunction)
     {
+        parent::__construct();
         Auth::requireLogin('*', $calledFunction);
-        $this->blade = new Blade('views', 'cache');
         $this->userTable = User::getInstance();
     }
 
@@ -39,6 +37,8 @@ class UserController
             'address1' => $_POST['address1'] ?? '',
             'start' => $_POST['start'] ?? '',
             'length' => $_POST['length'] ?? '',
+            'column' => $_POST['order'][0]['column'] + 1 ?? 1,
+            'direction' => $_POST['order'][0]['dir'] ?? 'asc',
         );
 
         echo json_encode($this->userTable->getAll($whereClause));
@@ -64,6 +64,7 @@ class UserController
             'address2' => [KanjiKana::class, 'nullable'],
             'address3' => [KanjiKana::class, 'nullable'],
             'phone' => [Numeric::class, 'nullable'],
+            'photo' => [Image::class, 'nullable'],
         ]);
 
         if ($validation->errors()) {
@@ -98,8 +99,10 @@ class UserController
             'address2' => [KanjiKana::class, 'nullable'],
             'address3' => [KanjiKana::class, 'nullable'],
             'phone' => [Numeric::class, 'nullable'],
+            'photo' => [Image::class, 'nullable'],
         ]);
 
+//        die(print_r($validation->validatedData()));
         if ($validation->errors()) {
             $user = $this->userTable->getWhere(array(['id', '=', $id]));
             echo $this->blade->render('users.edit', [

@@ -1,6 +1,8 @@
 <?php
-session_start();
+//session_cache_limiter("private_no_expire");
 
+session_start();
+//header("Cache-Control: no cache");
 require __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);

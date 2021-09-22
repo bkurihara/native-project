@@ -2,63 +2,55 @@
 
 namespace App\controllers;
 
+use App\cores\Controller;
 use App\middlewares\Auth;
 use App\models\User;
-use Jenssegers\Blade\Blade;
 
-class HomeController
+class HomeController extends Controller
 {
-    public $blade;
-    public $authenticated = false;
     public $userTable;
 
     public function __construct($calledFunction)
     {
-        $this->authenticated = Auth::requireLogin(array(
+        parent::__construct();
+        Auth::requireLogin(array(
             'index', 'logout'), $calledFunction
         );
-        $this->blade = new Blade('views', 'cache');
         $this->userTable = User::getInstance();
     }
 
     public function index()
     {
         $regions = $this->userTable->getRegions();
-        echo $this->blade->render('dashboard', ['regions'=>$regions]);
+        echo $this->blade->render('dashboard', ['regions' => $regions]);
     }
 
     public function login()
     {
-        if ($this->authenticated) {
+        if (Auth::isLoggedIn()) {
             redirect(base_url('dashboard'));
         }
 
         echo $this->blade->render('login');
     }
 
-    public function handle_login()
+    public function authenticate()
     {
-        if ($this->authenticated) {
-            redirect(base_url('dashboard'));
-        }
-
-        $logged_in = $this->userTable->authenticate(array(
+        $user = $this->userTable->authenticate(array(
             'email' => $_POST['email'],
             'password' => $_POST['password'],
         ));
 
-        if ($logged_in) {
+        if ($user->authenticated) {
             redirect(base_url('dashboard'));
-        } else{
-            redirect(base_url('login'));
+        } else {
+            echo $this->blade->render('login', ['error' => $user->error_message]);
         }
     }
 
     public function logout()
     {
-        if ($this->authenticated) {
-            session_destroy();
-            redirect(base_url('login'));
-        }
+        Auth::destroySession();
+        redirect(base_url('login'));
     }
 }

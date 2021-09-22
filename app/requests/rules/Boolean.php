@@ -7,7 +7,7 @@ class Boolean extends \App\cores\Rule
 
     public function check()
     {
-        return filter_var($this->value, FILTER_VALIDATE_BOOLEAN);
+        return ($this->value == 1 || $this->value == 2) ?? false;
     }
 
     public function getErrorMsg()
